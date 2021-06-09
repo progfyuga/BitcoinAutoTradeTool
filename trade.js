@@ -50,7 +50,7 @@ const sleep = (timer) => {
 
         } else{    
 
-            if(records[0] < records[1] && records[1] < records[2] && down_stop == 0){
+            if(records[0] < records[1] && records[1] < records[2] ){
                 //買い注文
                 // console.log(ftx.id , await ftx.createMarketBuyOrder ('BTC/USD', 0.01))
                 console.log('price high!')

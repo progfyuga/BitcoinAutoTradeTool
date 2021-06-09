@@ -5,6 +5,8 @@ const config = require ('./config');
 let ftx= new ccxt.ftx (config)
 const interval = 2000
 const records = []
+let profit = 0
+
 
 let orderInfo = null
 
@@ -25,7 +27,7 @@ const sleep = (timer) => {
         if(records.length > 3){
             records.shift()
         }
-        console.log(records)
+        console.log(records + '[現在収益]:' + profit)
         if(orderInfo){
             console.log('最新売り価格:' + ticker.bid)
             console.log('注文価格:' + orderInfo.price)
@@ -33,19 +35,22 @@ const sleep = (timer) => {
             if(ticker.bid - orderInfo.price > 5){
                 //売り注文
                 // console.log(ftx.id , await ftx.createMarketSellOrder ('BTC/USD', 0.01))
+                profit += (ticker.bid - orderInfo.price)
                 orderInfo = null
                 console.log('利確しました')
-                
                 
             } else if(ticker.bid - orderInfo.price < -5){
                 //売り注文
                 // console.log(ftx.id , await ftx.createMarketSellOrder ('BTC/USD', 0.01))
+                profit += (ticker.bid - orderInfo.price)
                 orderInfo = null
                 console.log('ロスカットしました')
+
             }
 
-        } else{
-            if(records[0] < records[1] && records[1] < records[2]){
+        } else{    
+
+            if(records[0] < records[1] && records[1] < records[2] && down_stop == 0){
                 //買い注文
                 // console.log(ftx.id , await ftx.createMarketBuyOrder ('BTC/USD', 0.01))
                 console.log('price high!')

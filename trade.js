@@ -33,32 +33,32 @@ const sleep = (timer) => {
             console.log('注文価格:' + orderInfo.price)
             console.log('差額:' + (ticker.bid - orderInfo.price))
             if(ticker.bid - orderInfo.price > 5){
-                //売り注文
-                // console.log(ftx.id , await ftx.createMarketSellOrder ('BTC/USD', 0.01))
-                profit += (ticker.bid - orderInfo.price)
-                orderInfo = null
-                console.log('利確しました')
-                
-            } else if(ticker.bid - orderInfo.price < -5){
-                //売り注文
-                // console.log(ftx.id , await ftx.createMarketSellOrder ('BTC/USD', 0.01))
-                profit += (ticker.bid - orderInfo.price)
+                //買い注文
+                // console.log(ftx.id , await ftx.createMarketBuyOrder ('BTC/USD', 0.01))
+                profit += (orderInfo.price - ticker.bid)
                 orderInfo = null
                 console.log('ロスカットしました')
+                
+            } else if(ticker.bid - orderInfo.price < -5){
+                //買い注文
+                // console.log(ftx.id , await ftx.createMarketBuyOrder ('BTC/USD', 0.01))
+                profit += (orderInfo.price - ticker.bid)
+                orderInfo = null
+                console.log('利確しました')
 
             }
 
         } else{    
 
             if(records[0] < records[1] && records[1] < records[2] ){
-                //買い注文
-                // console.log(ftx.id , await ftx.createMarketBuyOrder ('BTC/USD', 0.01))
+                //売り注文
+                // console.log(ftx.id , await ftx.createMarketSellOrder ('BTC/USD', 0.01))
                 console.log('price high!')
                 orderInfo = {
                     order: 'オーダー',
                     price: ticker.ask
                 }
-                console.log('買い注文しました', orderInfo)
+                console.log('売り注文しました', orderInfo)
             }
         }
         
